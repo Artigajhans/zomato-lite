@@ -199,7 +199,7 @@ exports.verifyCustomerOTP = asyncHandler(async (req, res) => {
         result: {
             name: result.name,
             email: result.email,
-            email: result.mobile,
+            mobile: result.mobile,
             infoComplete: result.infoComplete
         }
     })
