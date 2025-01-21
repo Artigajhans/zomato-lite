@@ -81,7 +81,9 @@ exports.logoutAdmin = asyncHandler(async (req, res) => {
     res.clearCookie("zomato-admin")
     res.json({ message: "logout success" })
 })
-
+// resturant register
+// resturant login
+// resturant logout
 
 exports.registerResturant = asyncHandler(async (req, res) => {
     const { email, password } = req.body
@@ -208,9 +210,44 @@ exports.logoutCustomer = asyncHandler(async (req, res) => {
     res.clearCookie("zomato-Customer")
     res.json({ message: "logout success" })
 })
-// resturant register
-// resturant login
-// resturant logout
+
+exports.loginRider = async (req, res) => {
+    const { email, password } = req.body
+    console.log(req.body);
+
+    const result = await Resturant.findOne({ email })
+    if (!result) {
+        return res.status(401).json({ message: "invalid credentials email" })
+    }
+    const isVerify = await bcrypt.compare(password, result.password)
+    if (!isVerify) {
+        return res.status(401).json({ message: "invalid credentials password" })
+    }
+
+    const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
+
+    res.cookie("zomato-rider", token, {
+        maxAge: 1000 * 60 * 60 * 24,
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production"
+    })
+
+    res.json({
+        message: "rider login success", result: {
+            _id: result._id,
+            name: result.name,
+            email: result.email,
+            infoComplete: result.infoComplete,
+        }
+    })
+}
+exports.logoutRider = asyncHandler(async (req, res) => {
+    res.clearCookie("zomato-rider")
+    res.json({ message: "logout success" })
+})
+
+
+
 
 // customer register
 // customer login

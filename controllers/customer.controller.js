@@ -30,7 +30,7 @@ exports.getLoaction = asyncHandler(async (req, res) => {
             city
         }
     })
-    addrss
+    // addrss
     // setLoc(data.results[0].formatted);
 })
 exports.updateCustomerInfo = asyncHandler(async (req, res) => {
@@ -71,8 +71,10 @@ exports.placeOrder = asyncHandler(async (req, res) => {
 })
 exports.getOrders = asyncHandler(async (req, res) => {
     const result = await Order
-        .find({ customer: req.user }).select("-customer -createdAt -updatedAt -__v")//select find pay lagtey je nahi patvycha ahe tey selct mdhe takhych
+        .find({ customer: req.user })
+        .select("-customer -createdAt -updatedAt -__v")//select find pay lagtey je nahi patvycha ahe tey selct mdhe takhych
         .populate("resturant", "name hero") //populate main second arugument//joins 
         .populate("items.dish", "name type image price")//je patvycha ahe tey populate mdhe
+        .sort({ createdAt: -1 })
     res.json({ message: "order place success", result })
 })
