@@ -10,6 +10,7 @@ const { differenceInSeconds } = require('date-fns')
 const { sendSMS } = require('../utils/sms')
 const Resturant = require('../models/Resturant')
 const Customer = require('../models/Customer')
+const Rider = require('../models/Rider')
 
 
 exports.registerAdmin = asyncHandler(async (req, res) => {
@@ -215,7 +216,7 @@ exports.loginRider = async (req, res) => {
     const { email, password } = req.body
     console.log(req.body);
 
-    const result = await Resturant.findOne({ email })
+    const result = await Rider.findOne({ email })
     if (!result) {
         return res.status(401).json({ message: "invalid credentials email" })
     }
