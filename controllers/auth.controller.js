@@ -213,12 +213,12 @@ exports.logoutCustomer = asyncHandler(async (req, res) => {
 })
 
 exports.loginRider = async (req, res) => {
-    const { email, password } = req.body
+    const { userName, password } = req.body
     console.log(req.body);
 
-    const result = await Rider.findOne({ email })
+    const result = await Rider.findOne({ $or: [{ email: userName }, { monile: userName }] })
     if (!result) {
-        return res.status(401).json({ message: "invalid credentials email" })
+        return res.status(401).json({ message: "invalid credentials " })
     }
     const isVerify = await bcrypt.compare(password, result.password)
     if (!isVerify) {
