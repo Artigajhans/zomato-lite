@@ -216,7 +216,7 @@ exports.loginRider = async (req, res) => {
     const { userName, password } = req.body
     console.log(req.body);
 
-    const result = await Rider.findOne({ $or: [{ email: userName }, { monile: userName }] })
+    const result = await Rider.findOne({ $or: [{ email: userName }, { mobile: userName }] })
     if (!result) {
         return res.status(401).json({ message: "invalid credentials " })
     }
