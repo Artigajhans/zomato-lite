@@ -248,8 +248,6 @@ exports.logoutRider = asyncHandler(async (req, res) => {
 })
 
 
-
-
 // customer register
 // customer login
 // customer logout
