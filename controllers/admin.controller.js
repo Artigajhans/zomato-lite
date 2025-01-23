@@ -8,6 +8,7 @@ const bcrypt = require('bcryptjs')
 const { riderUpload } = require("../utils/upload")
 const { checkEmpty } = require("../utils/checkEmpty")
 const cloud = require("./../utils/cloudinary")
+const { io } = require("../socket/socket")
 
 
 
@@ -151,5 +152,8 @@ exports.getAdminActiveRider = asyncHandler(async (req, res) => {
 exports.assignRider = asyncHandler(async (req, res) => {
     const { oid } = req.params
     await Order.findByIdAndUpdate(oid, { rider: req.body.rider })
+
+    const result = await Order.find({ rider: req.body.rider })
+    io.emit("rider-orders", result)
     res.json({ message: "rider asiign success" })
 })
