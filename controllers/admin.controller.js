@@ -32,7 +32,7 @@ exports.getAdminOrder = asyncHandler(async (req, res) => {
     const { limit, skip } = req.query
     const total = await Order.countDocuments()
     const result = await Order
-        .find(req.body)
+        .find()//(req.body)
         .select(" -createdAt -updatedAt -__v ")
         .populate("rider", "name mobile")
         .populate("resturant", "name email mobile")
