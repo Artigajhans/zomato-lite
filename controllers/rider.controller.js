@@ -16,6 +16,13 @@ exports.getRiderOrders = asyncHandler(async (req, res) => {
 exports.updateOrderStatus = asyncHandler(async (req, res) => {
     const { oid } = req.params
     await Order.findByIdAndUpdate(oid, { status: req.body.status })
-    io.emit("status-update")
+    const result = find({ customer: req.user, status: "delivered" })
+        .select("-customer -createdAt -updatedAt -__v")
+        .populate("rider", "name mobile")
+        .populate("resturant", "name hero")
+        .populate("items.dish", "name type image price")
+        .sort({ createdAt: -1 })
+    io.emit("status-update", result)
+    io.emit("hide-deliveredOrder", result)
     res.json({ message: "order fetch success" })
 })
