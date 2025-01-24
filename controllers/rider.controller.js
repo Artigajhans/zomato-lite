@@ -15,8 +15,7 @@ exports.getRiderOrders = asyncHandler(async (req, res) => {
 })
 exports.updateOrderStatus = asyncHandler(async (req, res) => {
     const { oid } = req.params
-    const result = await Order.findByIdAndUpdate(oid, { status: req.body.status })
-
+    await Order.findByIdAndUpdate(oid, { status: req.body.status })
     io.emit("status-update")
     res.json({ message: "order fetch success" })
 })
