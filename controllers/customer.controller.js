@@ -79,7 +79,7 @@ exports.getOrders = asyncHandler(async (req, res) => {
         .populate("resturant", "name hero") //populate main second arugument//joins 
         .populate("items.dish", "name type image price")//je patvycha ahe tey populate mdhe
         .sort({ createdAt: -1 })
-    io.emit("hide-deliveredOrder")
+    // io.emit("hide-deliveredOrder")
     res.json({ message: "order place success", result })
 })
 exports.getOrdersHistory = asyncHandler(async (req, res) => {

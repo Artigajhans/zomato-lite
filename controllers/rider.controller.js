@@ -23,6 +23,6 @@ exports.updateOrderStatus = asyncHandler(async (req, res) => {
         .populate("items.dish", "name type image price")
         .sort({ createdAt: -1 })
     io.emit("status-update", result)
-    io.emit("hide-deliveredOrder", result)
+    // io.emit("hide-deliveredOrder", result)
     res.json({ message: "order fetch success" })
 })
