@@ -224,6 +224,9 @@ exports.loginRider = async (req, res) => {
     if (!isVerify) {
         return res.status(401).json({ message: "invalid credentials password" })
     }
+    if (!result.isActive) {
+        return res.status(401).json({ message: "account blocked by admin" })
+    }
 
     const token = jwt.sign({ _id: result._id }, process.env.JWT_SECRET, { expiresIn: "1d" })
 
